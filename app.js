@@ -15,14 +15,20 @@ app.set('view engine', 'pug');
 
 app.use(express.static(__dirname + '/public'));
 
-
-
 const people = require('./people.json');
 
 app.get('/', (req, res) => {
   res.render('index', {
     title: 'Homepage',
     people: people.profiles
+  });
+});
+
+app.get('/profile', (req, res) => {
+  const person = people.profiles.find(p => p.id === req.query.id);
+  res.render('profile', {
+    title: `About ${person.firstname} ${person.lastname}`,
+    person,
   });
 });
 
